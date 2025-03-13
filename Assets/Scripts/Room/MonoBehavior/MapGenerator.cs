@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
-{
+{   
+    [Header("Map Configuration")]
     public MapConfigureSO mapConfigure;
+    [Header("Prefabs")]
     public Room roomPrefab;
+    public LineRenderer linePrefab;
 
     private float height;
     private float width;
@@ -27,6 +31,8 @@ public class MapGenerator : MonoBehaviour
 
     public void CreateMap()
     {
+        // List of rooms in the previous column
+        List<Room> previousColumnRooms = new List<Room>();
         for(int column=0; column<mapConfigure.roomBlueprints.Count; column++)
         {
             var bluePrint = mapConfigure.roomBlueprints[column];
@@ -41,6 +47,9 @@ public class MapGenerator : MonoBehaviour
             
             var newPosition = generatePosition;
             
+            // List of rooms in the current column
+            List<Room> currentColumnRooms = new List<Room>();
+            
             if (column == mapConfigure.roomBlueprints.Count - 1)
             {
                 newPosition.x = width/2 - border*2;
@@ -49,8 +58,65 @@ public class MapGenerator : MonoBehaviour
             for(int j=0; j<amount; j++)
             {
                 newPosition.y = startHeight - roomGapY*j;
-                Instantiate(roomPrefab, newPosition, Quaternion.identity, transform);
+                var room = Instantiate(roomPrefab, newPosition, Quaternion.identity, transform);
+                currentColumnRooms.Add(room);
+            }
+            
+            // if current column is not the first column, connect the rooms with the previous column
+            if(previousColumnRooms.Count > 0)
+            {
+                // Connect the rooms
+                CreateConnections(previousColumnRooms, currentColumnRooms);
+            }
+            
+            previousColumnRooms = currentColumnRooms;
+        }
+    }
+
+    private void CreateConnections(List<Room> column1, List<Room> column2)
+    {
+        HashSet<Room> visited = new HashSet<Room>();
+
+        foreach (var room in column1)
+        {
+            var targetRoom = ConnectToRandomRoom(room, column2);
+            visited.Add(targetRoom);
+        }
+        
+        foreach (var room in column2)
+        {
+            if (!visited.Contains(room))
+            {
+                ReverseConnectToRandomRoom(room, column1);
             }
         }
+    }
+
+    private Room ConnectToRandomRoom(Room room, List<Room> column2)
+    {
+        Room targetRoom;
+        
+        targetRoom = column2[Random.Range(0, column2.Count)];
+        
+        // Create a line between the rooms
+        var line = Instantiate(linePrefab, transform);
+        line.SetPosition(0, room.transform.position);
+        line.SetPosition(1, targetRoom.transform.position);
+
+        return targetRoom;
+    }
+    
+    private Room ReverseConnectToRandomRoom(Room room, List<Room> column2)
+    {
+        Room targetRoom;
+        
+        targetRoom = column2[Random.Range(0, column2.Count)];
+        
+        // Create a line between the rooms
+        var line = Instantiate(linePrefab, transform);
+        line.SetPosition(0, targetRoom.transform.position);
+        line.SetPosition(1, room.transform.position);
+
+        return targetRoom;
     }
 }
