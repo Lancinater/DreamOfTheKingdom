@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aee2ad8a74d75db48acc2dd16185bbe0, type: 3}
-  m_Name: Boss
+  m_Name: Shop
   m_EditorClassIdentifier: 
-  roomIcon: {fileID: 21300000, guid: 8e5bebd214d59430d8dff7bb4e40f292, type: 3}
-  roomType: 32
+  roomIcon: {fileID: 21300000, guid: e1741766f3c3e415787fbdd3e0d30a0e, type: 3}
+  roomType: 4
   sceneToLoad:
     m_AssetGUID: 
     m_SubObjectName: 

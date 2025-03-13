@@ -15,7 +15,7 @@ public class Room : MonoBehaviour
 
     private void Start()
     {
-        SetupRoom(0,0, roomData);
+        // SetupRoom(0,0, roomData);
     }
 
     private void OnMouseUp()
