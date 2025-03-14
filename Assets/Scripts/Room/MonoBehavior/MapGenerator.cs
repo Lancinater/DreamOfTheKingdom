@@ -7,6 +7,10 @@ public class MapGenerator : MonoBehaviour
 {   
     [Header("Map Configuration")]
     public MapConfigureSO mapConfigure;
+    
+    [Header("Map Layout")]
+    public MapLayoutSO mapLayout;
+    
     [Header("Prefabs")]
     public Room roomPrefab;
     public LineRenderer linePrefab;
@@ -19,9 +23,12 @@ public class MapGenerator : MonoBehaviour
     public float border;
     
     [Header("Room Data")]
+    private List<Room> rooms = new List<Room>();
     public List<RoomDataSO> roomDataList = new List<RoomDataSO>();
     // Dictionary to store room data list
     Dictionary<RoomType, RoomDataSO> roomDataDic = new Dictionary<RoomType, RoomDataSO>();
+
+    private List<LineRenderer> lines = new();
     
     private void Awake()
     {
@@ -35,9 +42,21 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void Start()
+    // private void Start()
+    // {
+    //     CreateMap();
+    // }
+    
+    private void OnEnable()
     {
-        CreateMap();
+        if(mapLayout.mapRoomDataList.Count > 0)
+        {
+            LoadMap();
+        }
+        else
+        {
+            CreateMap();
+        }
     }
 
     public void CreateMap()
@@ -73,6 +92,7 @@ public class MapGenerator : MonoBehaviour
                 newPosition.y = startHeight - roomGapY*j;
                 // generate room
                 var room = Instantiate(roomPrefab, newPosition, Quaternion.identity, transform);
+                rooms.Add(room);
                 RoomType roomType = GetRandomRoomType(mapConfigure.roomBlueprints[column].roomType);
                 
                 room.SetupRoom(column, j, GetRoomData(roomType));
@@ -88,6 +108,7 @@ public class MapGenerator : MonoBehaviour
             
             previousColumnRooms = currentColumnRooms;
         }
+        SaveMap();
     }
 
     private void CreateConnections(List<Room> column1, List<Room> column2)
@@ -119,7 +140,7 @@ public class MapGenerator : MonoBehaviour
         var line = Instantiate(linePrefab, transform);
         line.SetPosition(0, room.transform.position);
         line.SetPosition(1, targetRoom.transform.position);
-
+        lines.Add(line);
         return targetRoom;
     }
     
@@ -151,5 +172,62 @@ public class MapGenerator : MonoBehaviour
         RoomType roomType = (RoomType) Enum.Parse(typeof(RoomType), randomRoom);
         
         return roomType;
+    }
+
+    private void SaveMap()
+    {
+        mapLayout.mapRoomDataList = new();
+
+        // Save all the rooms
+        for(int i = 0; i < rooms.Count; i++)
+        {
+            var room = new mapRoomData()
+            {
+                posX = rooms[i].transform.position.x,
+                poxY = rooms[i].transform.position.y,
+                column = rooms[i].column,
+                row = rooms[i].row,
+                roomData = rooms[i].roomData,
+                roomState = rooms[i].roomState
+            };
+            
+            mapLayout.mapRoomDataList.Add(room);
+        }
+
+        mapLayout.linePositionList = new();
+        // Save all the lines
+        for(int i = 0; i < lines.Count; i++)
+        {
+            var line = new LinePosition()
+            {
+                start = new SerializeVector3(lines[i].GetPosition(0)),
+                end = new SerializeVector3(lines[i].GetPosition(1))
+            };
+            
+            mapLayout.linePositionList.Add(line);
+        }
+    }
+    
+    private void LoadMap()
+    {
+        // read all the rooms
+        for(int i = 0; i < mapLayout.mapRoomDataList.Count; i++)
+        {
+            var roomData = mapLayout.mapRoomDataList[i];
+            var room = Instantiate(roomPrefab, new Vector3(roomData.posX, roomData.poxY, 0), Quaternion.identity, transform);
+            room.roomState = mapLayout.mapRoomDataList[i].roomState;
+            room.SetupRoom(roomData.column, roomData.row, roomData.roomData);
+            rooms.Add(room);
+        }
+        
+        // read all the lines
+        for(int i = 0; i < mapLayout.linePositionList.Count; i++)
+        {
+            var lineData = mapLayout.linePositionList[i];
+            var line = Instantiate(linePrefab, transform);
+            line.SetPosition(0, lineData.start.ToVector3());
+            line.SetPosition(1, lineData.end.ToVector3());
+            lines.Add(line);
+        }
     }
 }
