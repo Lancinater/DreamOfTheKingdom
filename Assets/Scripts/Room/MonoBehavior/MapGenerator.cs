@@ -94,7 +94,14 @@ public class MapGenerator : MonoBehaviour
                 var room = Instantiate(roomPrefab, newPosition, Quaternion.identity, transform);
                 rooms.Add(room);
                 RoomType roomType = GetRandomRoomType(mapConfigure.roomBlueprints[column].roomType);
-                
+                if (column == 0)
+                {
+                    room.roomState = RoomState.Attainable;
+                }
+                else
+                {
+                    room.roomState = RoomState.Locked;
+                }
                 room.SetupRoom(column, j, GetRoomData(roomType));
                 currentColumnRooms.Add(room);
             }
@@ -141,6 +148,7 @@ public class MapGenerator : MonoBehaviour
         line.SetPosition(0, room.transform.position);
         line.SetPosition(1, targetRoom.transform.position);
         lines.Add(line);
+        room.linkTo.Add(new Vector2Int(targetRoom.column, targetRoom.row));
         return targetRoom;
     }
     
@@ -154,7 +162,8 @@ public class MapGenerator : MonoBehaviour
         var line = Instantiate(linePrefab, transform);
         line.SetPosition(0, targetRoom.transform.position);
         line.SetPosition(1, room.transform.position);
-
+        lines.Add(line);
+        targetRoom.linkTo.Add(new Vector2Int(room.column, room.row));
         return targetRoom;
     }
     
@@ -188,7 +197,8 @@ public class MapGenerator : MonoBehaviour
                 column = rooms[i].column,
                 row = rooms[i].row,
                 roomData = rooms[i].roomData,
-                roomState = rooms[i].roomState
+                roomState = rooms[i].roomState,
+                linkTo = rooms[i].linkTo
             };
             
             mapLayout.mapRoomDataList.Add(room);
@@ -217,6 +227,7 @@ public class MapGenerator : MonoBehaviour
             var room = Instantiate(roomPrefab, new Vector3(roomData.posX, roomData.poxY, 0), Quaternion.identity, transform);
             room.roomState = mapLayout.mapRoomDataList[i].roomState;
             room.SetupRoom(roomData.column, roomData.row, roomData.roomData);
+            room.linkTo = roomData.linkTo;
             rooms.Add(room);
         }
         

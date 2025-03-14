@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -8,6 +9,7 @@ public class Room : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public RoomDataSO roomData;
     public RoomState roomState;
+    public List<Vector2Int> linkTo = new();
     
     [Header ("Broadcasting on Room Click")]
     public ObjectEventSO loadRoomEvent;
@@ -24,8 +26,16 @@ public class Room : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("Room Type: " + roomData.roomType);
-        loadRoomEvent.RaiseEvent(roomData,this);
+        // Debug.Log("Room Type: " + roomData.roomType);
+        if(roomState == RoomState.Attainable)
+        {
+            loadRoomEvent.RaiseEvent(this, this);
+        }
+        else
+        {
+            Debug.Log("The room is currently locked");
+        }
+        
     }
     
     /// <summary>
@@ -40,5 +50,12 @@ public class Room : MonoBehaviour
         this.row = row;
         this.roomData = roomData;
         spriteRenderer.sprite = roomData.roomIcon;
+        spriteRenderer.color = roomState switch
+        {
+            RoomState.Locked => new Color(0.5f, 0.5f, 0.5f, 1f),
+            RoomState.Visited => new Color(0.5f, 0.8f, 0.5f, 0.5f),
+            RoomState.Attainable => Color.white,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }
