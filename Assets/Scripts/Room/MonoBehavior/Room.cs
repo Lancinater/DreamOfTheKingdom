@@ -8,6 +8,10 @@ public class Room : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public RoomDataSO roomData;
     public RoomState roomState;
+    
+    [Header ("Broadcasting on Room Click")]
+    public ObjectEventSO loadRoomEvent;
+    
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -21,6 +25,7 @@ public class Room : MonoBehaviour
     private void OnMouseUp()
     {
         Debug.Log("Room Type: " + roomData.roomType);
+        loadRoomEvent.RaiseEvent(roomData,this);
     }
     
     /// <summary>
