@@ -26,7 +26,7 @@ public class CardDeck : MonoBehaviour
             }
         }
         
-        // TODO: Shuffle the deck/Update the UI
+        ShuffleDeck();
         
     }
     
@@ -49,8 +49,11 @@ public class CardDeck : MonoBehaviour
         {
             if (drawDeck.Count == 0)
             {
-                // TODO:Shuffle the discard deck to the draw deck
-                
+                for(int j=0;i<discardDeck.Count;i++)
+                {
+                    drawDeck.Add(discardDeck[i]);
+                }
+                ShuffleDeck();
             }
             var cardData = drawDeck[0];
             drawDeck.RemoveAt(0);
@@ -84,5 +87,28 @@ public class CardDeck : MonoBehaviour
             card.GetComponent<SortingGroup>().sortingOrder = i;
             card.UpdatePositionRotation(cardTransform.position, cardTransform.rotation);
         }
+    }
+
+    private void ShuffleDeck()
+    {
+        discardDeck.Clear();
+        //TODO: Update the UI
+        
+        for(int i=0;i<drawDeck.Count;i++)
+        {
+            var temp = drawDeck[i];
+            var randomIndex = UnityEngine.Random.Range(i, drawDeck.Count);
+            drawDeck[i] = drawDeck[randomIndex];
+            drawDeck[randomIndex] = temp;
+        }
+    }
+    
+    public void DiscardCard(Card card)
+    {
+        cardsInHand.Remove(card);
+        discardDeck.Add(card.cardData);
+        cardManager.DiscardCard(card.gameObject);
+        
+        SetCardLayout(0f);
     }
 }
