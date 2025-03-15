@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: MapLayoutSO
   m_EditorClassIdentifier: 
   mapRoomDataList: []
+  linePositionList: []
