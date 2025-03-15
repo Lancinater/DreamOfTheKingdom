@@ -24,6 +24,11 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        currentLibrary.cardLibraryList.Clear();
+    }
+
     #region GetCardsFromSO
 
     private void InitializeCardDataList()
@@ -45,9 +50,16 @@ public class CardManager : MonoBehaviour
 
     #endregion
 
+    
+    /// <summary>
+    /// Get a card object from the pool
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetCardObject()
     {
-        return poolTool.GetObjectFromPool();
+        var card = poolTool.GetObjectFromPool();
+        card.transform.localScale = Vector3.zero;
+        return card;
     }
     
     public void DiscardCard(GameObject card)
