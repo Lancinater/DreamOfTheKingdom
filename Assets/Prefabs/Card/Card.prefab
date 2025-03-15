@@ -567,6 +567,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78f127c753cf994ca9343022bf6e97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDrag: 0
+  card: {fileID: 0}
+  canExecute: 0
+  dragArrowPrefab: {fileID: 3471229745846295579, guid: 12cf490c989c3cf49b6b9cd6d6740e14, type: 3}
 --- !u!1 &3955382759593633380
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: c78f127c753cf994ca9343022bf6e97f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - card: {instanceID: 0}
+  - dragArrowPrefab: {fileID: 3471229745846295579, guid: 12cf490c989c3cf49b6b9cd6d6740e14, type: 3}
+  - dragArrow: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

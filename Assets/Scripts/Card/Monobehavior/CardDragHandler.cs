@@ -7,6 +7,10 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public bool canDrag;
     public Card card;
     public bool canExecute;
+    
+    public GameObject dragArrowPrefab;
+    private GameObject dragArrow;
+    
 
     private void Awake()
     {
@@ -33,6 +37,7 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
                 canDrag = true;
                 break;
             case CardType.Attack:
+                dragArrow = Instantiate(dragArrowPrefab, transform);
                 break;
         }
         
@@ -40,6 +45,8 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(dragArrow!=null)
+            Destroy(dragArrow);
         if (canExecute)
         {
             // TODO: Execute the card

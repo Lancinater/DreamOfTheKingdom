@@ -511,6 +511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardManager: {fileID: 249602129}
   cardLayoutManager: {fileID: 1087169587}
+  drawPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1533246460
 Transform:
   m_ObjectHideFlags: 0
