@@ -1,0 +1,54 @@
+using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+{
+    public bool canDrag;
+    public Card card;
+    public bool canExecute;
+
+    private void Awake()
+    {
+        card = GetComponent<Card>();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (canDrag)
+        {
+            card.isAnimating = true;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
+            card.transform.position = worldPos;
+            canExecute = worldPos.y > 1f;
+        }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        switch (card.cardData.cardType)
+        {
+            case CardType.Ability:
+            case CardType.Defense:
+                canDrag = true;
+                break;
+            case CardType.Attack:
+                break;
+        }
+        
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (canExecute)
+        {
+            // TODO: Execute the card
+        }
+        else
+        {
+            card.transform.position = card.originalPosition;
+            card.isAnimating = false;
+        }
+        
+    }
+}

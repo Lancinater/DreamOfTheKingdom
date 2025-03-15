@@ -70,10 +70,11 @@ public class CardDeck : MonoBehaviour
             var card = cardsInHand[i];
             var cardTransform = cardLayoutManager.GetCardTransform(i, cardsInHand.Count);
             // card.transform.SetPositionAndRotation(cardTransform.position, cardTransform.rotation);
+            card.isAnimating = true;
             
             card.transform.DOScale(Vector3.one, 0.2f).SetDelay(delay).OnComplete(() =>
             {
-                card.transform.DOMove(cardTransform.position, 0.5f);
+                card.transform.DOMove(cardTransform.position, 0.5f).OnComplete((() => { card.isAnimating = false; }));
                 card.transform.DORotateQuaternion(cardTransform.rotation, 0.5f);
             });
             
@@ -81,6 +82,7 @@ public class CardDeck : MonoBehaviour
             
             // Set order in layer
             card.GetComponent<SortingGroup>().sortingOrder = i;
+            card.UpdatePositionRotation(cardTransform.position, cardTransform.rotation);
         }
     }
 }
