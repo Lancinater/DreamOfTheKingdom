@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 8722218179374960973}
   - component: {fileID: 2032583262053827061}
   - component: {fileID: 750022395275392604}
+  - component: {fileID: 3653223712518381914}
   m_Layer: 6
   m_Name: Card
   m_TagString: Untagged
@@ -531,6 +532,24 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.96, y: 4.23}
   m_EdgeRadius: 0
+--- !u!114 &3653223712518381914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3341429611882755298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a6930cfbaedee4ab9d1151d6c8b3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardImage: {fileID: 621969165201932459}
+  cardData: {fileID: 0}
+  cardType: 0
+  costText: {fileID: 2370899641361265872}
+  descriptionText: {fileID: 7581396950993452562}
+  typeText: {fileID: 8455841350250642785}
 --- !u!1 &3955382759593633380
 GameObject:
   m_ObjectHideFlags: 0
