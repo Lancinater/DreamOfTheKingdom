@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardDeck : MonoBehaviour
 {
     public CardManager cardManager;
+    public CardLayoutManager cardLayoutManager;
 
     private List<CardDataSO> drawDeck = new();
     private List<CardDataSO> discardDeck = new();
@@ -29,6 +30,7 @@ public class CardDeck : MonoBehaviour
     private void Start()
     {
         InitializeDeck();
+        DrawCard(3);
     }
 
     [ContextMenu("Test Draw Card")]
@@ -51,6 +53,17 @@ public class CardDeck : MonoBehaviour
             var card = cardManager.GetCardObject().GetComponent<Card>();
             card.Init(cardData);
             cardsInHand.Add(card);
+            SetCardLayout();
+        }
+    }
+
+    private void SetCardLayout()
+    {
+        for(int i=0;i<cardsInHand.Count;i++)
+        {
+            var card = cardsInHand[i];
+            var cardTransform = cardLayoutManager.GetCardTransform(i, cardsInHand.Count);
+            card.transform.SetPositionAndRotation(cardTransform.position, cardTransform.rotation);
         }
     }
 }
