@@ -19,6 +19,12 @@ public class Card : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     public int originalSortingOrder;
     public bool isAnimating;
 
+    [Header("Game Play")] 
+    public Player player;
+    
+    [Header("Events")]
+    public ObjectEventSO discardCardEvent; 
+    
     private void Start()
     {
         Init(cardData);
@@ -31,6 +37,7 @@ public class Card : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         costText.text = data.cost.ToString();
         descriptionText.text = data.description;
         typeText.text = data.cardType.ToString();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     public void UpdatePositionRotation(Vector3 position, Quaternion rotation)
@@ -58,5 +65,15 @@ public class Card : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         }
         transform.SetPositionAndRotation(originalPosition, originalRotation);
         GetComponent<SortingGroup>().sortingOrder = originalSortingOrder;
+    }
+
+    public void ExecuteCardEffects(CharacterBase from, CharacterBase target)
+    {
+        //TODO: reduce energy
+        discardCardEvent.RaiseEvent(this,this);
+        foreach(var effect in cardData.effects)
+        {
+            effect.Execute(from, target);
+        }
     }
 }

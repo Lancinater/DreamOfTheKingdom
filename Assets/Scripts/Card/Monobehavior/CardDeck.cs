@@ -49,9 +49,9 @@ public class CardDeck : MonoBehaviour
         {
             if (drawDeck.Count == 0)
             {
-                for(int j=0;i<discardDeck.Count;i++)
+                for(int j=0;j<discardDeck.Count;j++)
                 {
-                    drawDeck.Add(discardDeck[i]);
+                    drawDeck.Add(discardDeck[j]);
                 }
                 ShuffleDeck();
             }
@@ -103,8 +103,9 @@ public class CardDeck : MonoBehaviour
         }
     }
     
-    public void DiscardCard(Card card)
+    public void DiscardCard(object obj)
     {
+        Card card = obj as Card;
         cardsInHand.Remove(card);
         discardDeck.Add(card.cardData);
         cardManager.DiscardCard(card.gameObject);

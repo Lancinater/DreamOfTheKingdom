@@ -7,7 +7,7 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public bool canDrag;
     public Card card;
     public bool canExecute;
-    
+    private CharacterBase target;
     public GameObject dragArrowPrefab;
     private GameObject dragArrow;
     
@@ -25,6 +25,19 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
             card.transform.position = worldPos;
             canExecute = worldPos.y > 1f;
+        }
+        else
+        {
+            if(eventData.pointerEnter == null)
+                return;
+            if (eventData.pointerEnter.CompareTag("Enemy"))
+            {
+                canExecute = true;
+                target = eventData.pointerEnter.GetComponent<CharacterBase>();
+                return;
+            }
+            canExecute = false;
+            target = null;
         }
     }
 
@@ -50,6 +63,7 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (canExecute)
         {
             // TODO: Execute the card
+            card.ExecuteCardEffects(card.player, target);
         }
         else
         {

@@ -24,3 +24,10 @@ public enum CardType
     Defense,
     Ability
 }
+
+public enum EffectTargetType
+{
+    Self,
+    Target,
+    All
+}

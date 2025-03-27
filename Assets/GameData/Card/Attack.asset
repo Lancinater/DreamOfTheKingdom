@@ -17,3 +17,5 @@ MonoBehaviour:
   cost: 5
   cardType: 0
   description: Dealt 5 damage to the target
+  effects:
+  - {fileID: 11400000, guid: 1bc30048f517e3d4c89437f6cd457308, type: 2}
