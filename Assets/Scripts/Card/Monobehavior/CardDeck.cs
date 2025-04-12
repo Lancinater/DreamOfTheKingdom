@@ -14,7 +14,12 @@ public class CardDeck : MonoBehaviour
     private List<Card> cardsInHand = new();
     
     public Vector3 drawPosition;
-
+    
+    [Header("Events")]
+    public IntEventSO drawDeckAmountEvent;
+    public IntEventSO discardDeckAmountEvent;
+    
+    
     public void InitializeDeck()
     {
         drawDeck.Clear();
@@ -57,6 +62,8 @@ public class CardDeck : MonoBehaviour
             }
             var cardData = drawDeck[0];
             drawDeck.RemoveAt(0);
+            drawDeckAmountEvent.RaiseEvent(drawDeck.Count, this);
+            
             var card = cardManager.GetCardObject().GetComponent<Card>();
             card.Init(cardData);
             card.transform.position = drawPosition;
@@ -92,7 +99,9 @@ public class CardDeck : MonoBehaviour
     private void ShuffleDeck()
     {
         discardDeck.Clear();
-        //TODO: Update the UI
+        //Update the UI
+        drawDeckAmountEvent.RaiseEvent(drawDeck.Count, this);
+        discardDeckAmountEvent.RaiseEvent(discardDeck.Count, this);
         
         for(int i=0;i<drawDeck.Count;i++)
         {
@@ -109,7 +118,7 @@ public class CardDeck : MonoBehaviour
         cardsInHand.Remove(card);
         discardDeck.Add(card.cardData);
         cardManager.DiscardCard(card.gameObject);
-        
+        discardDeckAmountEvent.RaiseEvent(discardDeck.Count, this);
         SetCardLayout(0f);
     }
 }

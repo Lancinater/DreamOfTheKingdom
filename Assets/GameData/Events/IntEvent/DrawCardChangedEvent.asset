@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f19049b9668e5544ba6c67b43f0c9ae, type: 3}
-  m_Name: PlayerHealthChangedEvent
+  m_Name: DrawCardChangedEvent
   m_EditorClassIdentifier: 
-  description: update when player health changed
-  lastSender: PlayerHP (IntVariable)
+  description: update when draw card, notify UI
+  lastSender: 

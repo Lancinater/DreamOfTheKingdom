@@ -17,6 +17,12 @@ public class CardDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         card = GetComponent<Card>();
     }
 
+    private void OnDisable()
+    {
+        canExecute = false;
+        canDrag = false;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         if (canDrag)

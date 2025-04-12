@@ -1,8 +1,8 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/USS/GamePlayPanelUSS.uss?fileID=7433441132597879392&amp;guid=40bea1e9bfd64b74a89946736c31c0a6&amp;type=3#GamePlayPanelUSS" />
     <engine:VisualElement name="Base" picking-mode="Ignore" style="flex-grow: 1; flex-direction: column; scale: 1 1.1; height: 965px;">
-        <engine:VisualElement name="Top" picking-mode="Ignore" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Art/UI%20Elements/bg_top.png?fileID=2800000&amp;guid=52d5bcb810af94ed4ab2923f96e1bfed&amp;type=3#bg_top&quot;); -unity-background-scale-mode: scale-to-fit; height: 80px;">
-            <engine:Label text="Player Round" emoji-fallback-support="true" picking-mode="Ignore" style="-unity-text-align: middle-center; font-size: 37px; color: rgb(255, 255, 255);" />
+        <engine:VisualElement name="Top" picking-mode="Ignore" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Art/UI%20Elements/bg_top.png?fileID=2800000&amp;guid=52d5bcb810af94ed4ab2923f96e1bfed&amp;type=3#bg_top&quot;); -unity-background-scale-mode: scale-to-fit; height: 80px; transform-origin: center; position: relative; top: 50px; bottom: auto;">
+            <engine:Label text="Player Round" emoji-fallback-support="true" picking-mode="Ignore" name="RoundInformation" style="-unity-text-align: middle-center; font-size: 37px; color: rgb(255, 255, 255);" />
         </engine:VisualElement>
     </engine:VisualElement>
     <engine:VisualElement name="Resources" picking-mode="Ignore" style="flex-grow: 1; position: absolute; height: 317px; width: 233px; top: auto; left: 50px; bottom: 40px; align-items: stretch; justify-content: flex-start; align-content: flex-start;">

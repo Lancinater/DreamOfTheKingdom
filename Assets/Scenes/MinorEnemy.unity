@@ -334,6 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 50
   hp: {fileID: 11400000, guid: 0a9fc304f3bad6e498e201ba72b91e7b, type: 2}
+  isDead: 0
 --- !u!114 &1210205287
 MonoBehaviour:
   m_ObjectHideFlags: 0

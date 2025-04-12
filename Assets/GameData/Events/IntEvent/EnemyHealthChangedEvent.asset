@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f19049b9668e5544ba6c67b43f0c9ae, type: 3}
   m_Name: EnemyHealthChangedEvent
   m_EditorClassIdentifier: 
-  description: 
+  description: update when enemy health changed
   lastSender: 
